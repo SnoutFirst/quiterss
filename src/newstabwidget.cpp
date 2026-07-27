@@ -60,7 +60,7 @@ NewsTabWidget::NewsTabWidget(QWidget *parent, TabType type, int feedId, int feed
           this, SLOT(slotTabClose()));
 
   QHBoxLayout *newsTitleLayout = new QHBoxLayout();
-  newsTitleLayout->setMargin(0);
+  newsTitleLayout->setContentsMargins(0, 0, 0, 0);
   newsTitleLayout->setSpacing(0);
   newsTitleLayout->addWidget(newsIconTitle_);
   newsTitleLayout->addSpacing(3);
@@ -91,7 +91,7 @@ NewsTabWidget::NewsTabWidget(QWidget *parent, TabType type, int feedId, int feed
   }
 
   QVBoxLayout *layout = new QVBoxLayout();
-  layout->setMargin(0);
+  layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
   if (type_ == TabTypeDownloads)
     layout->addWidget(mainApp->downloadManager());
@@ -153,7 +153,7 @@ void NewsTabWidget::createNewsList()
                           "newsFilter,Separator,deleteNewsAct";
   QString str = settings.value("Settings/newsToolBar", actionListStr).toString();
 
-  foreach (QString actionStr, str.split(",", QString::SkipEmptyParts)) {
+  foreach (QString actionStr, str.split(",", Qt::SkipEmptyParts)) {
     if (actionStr == "Separator") {
       newsToolBar_->addSeparator();
     } else {
@@ -177,7 +177,7 @@ void NewsTabWidget::createNewsList()
   findText_->setFixedWidth(200);
 
   QHBoxLayout *newsPanelLayout = new QHBoxLayout();
-  newsPanelLayout->setMargin(2);
+  newsPanelLayout->setContentsMargins(2, 2, 2, 2);
   newsPanelLayout->setSpacing(2);
   newsPanelLayout->addWidget(newsToolBar_);
   newsPanelLayout->addStretch(1);
@@ -193,7 +193,7 @@ void NewsTabWidget::createNewsList()
   newsPanelWidget_->hide();
 
   QVBoxLayout *newsLayout = new QVBoxLayout();
-  newsLayout->setMargin(0);
+  newsLayout->setContentsMargins(0, 0, 0, 0);
   newsLayout->setSpacing(0);
   newsLayout->addWidget(newsPanelWidget_);
   newsLayout->addWidget(newsView_);

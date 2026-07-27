@@ -40,8 +40,8 @@ CategoriesTreeWidget::CategoriesTreeWidget(QWidget * parent)
   header()->setSectionResizeMode(0, QHeaderView::Stretch);
   header()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
 #else
-  header()->setResizeMode(0, QHeaderView::Stretch);
-  header()->setResizeMode(4, QHeaderView::ResizeToContents);
+  header()->setSectionResizeMode(0, QHeaderView::Stretch);
+  header()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
 #endif
   header()->setStretchLastSection(false);
 

@@ -131,7 +131,7 @@ void ParseObject::slotParse(const QByteArray &xmlData, const int &feedId,
     avoidedOldSingleNewsDate_ = q.value(4).toDate();
     QString excludePaths = q.value(5).toString();
     if (!excludePaths.isEmpty()) {
-      excludeSubPaths_ = excludePaths.split(",", QString::SkipEmptyParts);
+      excludeSubPaths_ = excludePaths.split(",", Qt::SkipEmptyParts);
       // Trim whitespace from each path
       for (int i = 0; i < excludeSubPaths_.size(); ++i) {
         excludeSubPaths_[i] = excludeSubPaths_[i].trimmed();
@@ -170,9 +170,13 @@ void ParseObject::slotParse(const QByteArray &xmlData, const int &feedId,
   if (pos > -1) {
     QString codecNameT = rx.cap(1);
     qDebug() << "Codec name (1):" << codecNameT;
+#ifndef HAVE_QT6
     QTextCodec *codec = QTextCodec::codecForName(codecNameT.toUtf8());
     if (codec) {
       convertData = codec->toUnicode(xmlData);
+#else
+    convertData = QString::fromUtf8(xmlData);
+#endif
     } else {
       qWarning() << "Codec not found (1): " << codecNameT << feedUrl;
       if (codecNameT.contains("us-ascii", Qt::CaseInsensitive)) {
@@ -183,9 +187,13 @@ void ParseObject::slotParse(const QByteArray &xmlData, const int &feedId,
   } else {
     if (!codecName.isEmpty()) {
       qDebug() << "Codec name (2):" << codecName;
+#ifndef HAVE_QT6
       QTextCodec *codec = QTextCodec::codecForName(codecName.toUtf8());
       if (codec) {
         convertData = codec->toUnicode(xmlData);
+#else
+      convertData = QString::fromUtf8(xmlData);
+#endif
         codecOk = true;
       } else {
         qWarning() << "Codec not found (2): " << codecName << feedUrl;
@@ -196,6 +204,7 @@ void ParseObject::slotParse(const QByteArray &xmlData, const int &feedId,
       QStringList codecNameList;
       codecNameList << "UTF-8" << "Windows-1251" << "KOI8-R" << "KOI8-U"
                     << "ISO 8859-5" << "IBM 866";
+#ifndef HAVE_QT6
       foreach (QString codecNameT, codecNameList) {
         QTextCodec *codec = QTextCodec::codecForName(codecNameT.toUtf8());
         if (codec && codec->canEncode(xmlData)) {
@@ -205,6 +214,7 @@ void ParseObject::slotParse(const QByteArray &xmlData, const int &feedId,
           break;
         }
       }
+#endif
       if (!codecOk) {
         convertData = QString::fromLocal8Bit(xmlData);
       }
@@ -498,10 +508,10 @@ void ParseObject::addAtomNewsIntoBase(NewsItemStruct *newsItem)
   // Verify old news before a date to avoid adding them to base
   bool isOld = false;
   QDateTime pubDate_ = QDateTime::fromString(newsItem->updated, "yyyy-MM-ddTHH:mm:ss");
-  QDateTime avoidedDate_ = QDateTime(mainApp->mainWindow()->avoidedOldNewsDate_);
+  QDateTime avoidedDate_ = mainApp->mainWindow()->avoidedOldNewsDate_.startOfDay();
   if (!addSingleNewsAnyDate_) {      //
     if (avoidedOldSingleNews_ ) {     // avoid adding old single news
-      if (QDateTime(avoidedOldSingleNewsDate_) > pubDate_)
+      if (avoidedOldSingleNewsDate_.startOfDay() > pubDate_)
         isOld = true;
       } else if (mainApp->mainWindow()->avoidOldNews_ && avoidedDate_ > pubDate_) {   // avoid adding old news
         isOld = true;
@@ -813,10 +823,10 @@ void ParseObject::addRssNewsIntoBase(NewsItemStruct *newsItem)
   // Verify old news before a date to avoid adding them to base
   bool isOld = false;
   QDateTime pubDate_ = QDateTime::fromString(newsItem->updated, "yyyy-MM-ddTHH:mm:ss");
-  QDateTime avoidedDate_ = QDateTime(mainApp->mainWindow()->avoidedOldNewsDate_);
+  QDateTime avoidedDate_ = mainApp->mainWindow()->avoidedOldNewsDate_.startOfDay();
   if (!addSingleNewsAnyDate_) {      //
     if (avoidedOldSingleNews_ ) {     // avoid adding old single news
-      if (QDateTime(avoidedOldSingleNewsDate_) > pubDate_)
+      if (avoidedOldSingleNewsDate_.startOfDay() > pubDate_)
         isOld = true;
       } else if (mainApp->mainWindow()->avoidOldNews_ && avoidedDate_ > pubDate_) {   // avoid adding old news
               isOld = true;

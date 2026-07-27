@@ -51,7 +51,7 @@ CustomizeToolbarDialog::CustomizeToolbarDialog(QWidget *parent, QToolBar *toolba
 #ifdef HAVE_QT5
   shortcutTree_->header()->setSectionResizeMode(0, QHeaderView::Stretch);
 #else
-  shortcutTree_->header()->setResizeMode(0, QHeaderView::Stretch);
+  shortcutTree_->header()->setSectionResizeMode(0, QHeaderView::Stretch);
 #endif
 
   QStringList treeItem;
@@ -129,7 +129,7 @@ CustomizeToolbarDialog::CustomizeToolbarDialog(QWidget *parent, QToolBar *toolba
   styleWidget->setLayout(styleLayout);
 
   QHBoxLayout *settingsLayout = new QHBoxLayout();
-  settingsLayout->setMargin(0);
+  settingsLayout->setContentsMargins(0, 0, 0, 0);
   settingsLayout->addWidget(iconWidget);
   settingsLayout->addSpacing(10);
   settingsLayout->addWidget(styleWidget);
@@ -174,7 +174,7 @@ CustomizeToolbarDialog::CustomizeToolbarDialog(QWidget *parent, QToolBar *toolba
   buttonsVLayout->addStretch();
 
   QHBoxLayout *mainlayout = new QHBoxLayout();
-  mainlayout->setMargin(0);
+  mainlayout->setContentsMargins(0, 0, 0, 0);
   mainlayout->addLayout(mainVLayout);
   mainlayout->addLayout(buttonsVLayout);
 
@@ -243,7 +243,7 @@ void CustomizeToolbarDialog::acceptDialog()
   }
 
   if (toolbar_->objectName() != "newsToolBar") {
-    foreach (QString actionStr, str.split(",", QString::SkipEmptyParts)) {
+    foreach (QString actionStr, str.split(",", Qt::SkipEmptyParts)) {
       if (actionStr == "Separator") {
         toolbar_->addSeparator();
       } else {
@@ -295,7 +295,7 @@ void CustomizeToolbarDialog::acceptDialog()
 
     for (int i = 0; i < mainWindow->stackedWidget_->count(); i++) {
       NewsTabWidget *widget = (NewsTabWidget*)mainWindow->stackedWidget_->widget(i);
-      foreach (QString actionStr, str.split(",", QString::SkipEmptyParts)) {
+      foreach (QString actionStr, str.split(",", Qt::SkipEmptyParts)) {
         if (actionStr == "Separator") {
           widget->newsToolBar_->addSeparator();
         } else {
@@ -449,7 +449,7 @@ void CustomizeToolbarDialog::defaultShortcut()
         "newsFilter,Separator,deleteNewsAct";
   }
 
-  foreach (QString actionStr, actionListStr.split(",", QString::SkipEmptyParts)) {
+  foreach (QString actionStr, actionListStr.split(",", Qt::SkipEmptyParts)) {
     QStringList treeItem;
     if (actionStr == "Separator") {
       QTreeWidgetItem *item = new QTreeWidgetItem(treeItem);

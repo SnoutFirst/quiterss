@@ -262,7 +262,9 @@ void MainApplication::quitApplication()
 
 void MainApplication::showClosingWidget()
 {
-#ifdef HAVE_QT5
+#ifdef HAVE_QT6
+  const QRect screenGeometry = QGuiApplication::primaryScreen()->availableGeometry();
+#elif defined(HAVE_QT5)
   const QRect screenGeometry = QGuiApplication::primaryScreen()->availableGeometry();
 #else
   const QRect screenGeometry = QApplication::desktop()->availableGeometry();

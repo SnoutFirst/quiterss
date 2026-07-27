@@ -18,7 +18,9 @@
 #ifndef ITEMCONDITION_H
 #define ITEMCONDITION_H
 
-#ifdef HAVE_QT5
+#ifdef HAVE_QT6
+#include <QtWidgets>
+#elif defined(HAVE_QT5)
 #include <QtWidgets>
 #else
 #include <QtGui>

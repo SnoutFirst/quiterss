@@ -18,19 +18,25 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#ifdef HAVE_QT5
+#ifdef HAVE_QT6
+#include <QtWidgets>
+#include <QMediaPlayer>
+#include <QAudioOutput>
+#include <QSoundEffect>
+#elif defined(HAVE_QT5)
 #include <QtWidgets>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <QSound>
 #else
 #include <QtGui>
 #ifdef HAVE_PHONON
 #include <phonon/audiooutput.h>
 #include <phonon/mediaobject.h>
 #endif
+#include <QSound>
 #endif
 #include <QtSql>
-#include <QSound>
 
 #include "categoriestreewidget.h"
 #include "feedsmodel.h"
@@ -645,7 +651,10 @@ private:
 
   int openingFeedAction_;
 
-#ifdef HAVE_QT5
+#ifdef HAVE_QT6
+  QMediaPlayer *mediaPlayer_;
+  QAudioOutput *audioOutput_;
+#elif defined(HAVE_QT5)
   QMediaPlayer *mediaPlayer_;
   QMediaPlaylist *playlist_;
 #else

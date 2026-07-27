@@ -52,7 +52,7 @@ NewsHeader::NewsHeader(NewsModel *model, QWidget *parent)
   connect(buttonColumnView_, SIGNAL(clicked()), this, SLOT(slotButtonColumnView()));
 
   QHBoxLayout *buttonLayout = new QHBoxLayout();
-  buttonLayout->setMargin(0);
+  buttonLayout->setContentsMargins(0, 0, 0, 0);
   buttonLayout->addWidget(buttonColumnView_, 0, Qt::AlignRight|Qt::AlignVCenter);
   setLayout(buttonLayout);
 
@@ -107,9 +107,9 @@ void NewsHeader::init()
   setSectionResizeMode(model_->fieldIndex("feedId"), QHeaderView::Fixed);
   setSectionResizeMode(model_->fieldIndex("read"), QHeaderView::Fixed);
 #else
-  setResizeMode(model_->fieldIndex("starred"), QHeaderView::Fixed);
-  setResizeMode(model_->fieldIndex("feedId"), QHeaderView::Fixed);
-  setResizeMode(model_->fieldIndex("read"), QHeaderView::Fixed);
+  setSectionResizeMode(model_->fieldIndex("starred"), QHeaderView::Fixed);
+  setSectionResizeMode(model_->fieldIndex("feedId"), QHeaderView::Fixed);
+  setSectionResizeMode(model_->fieldIndex("read"), QHeaderView::Fixed);
 #endif
 
   move_ = true;
@@ -440,7 +440,7 @@ void NewsHeader::setColumns(const QModelIndex &indexFeed)
   MainWindow *mainWindow = mainApp->mainWindow();
   indexColumnsStr = mainWindow->feedsModel_->dataField(indexFeed, "columns").toString();
   if (!indexColumnsStr.isEmpty()) {
-    QStringList indexColumnsList = indexColumnsStr.split(",", QString::SkipEmptyParts);
+    QStringList indexColumnsList = indexColumnsStr.split(",", Qt::SkipEmptyParts);
     if (indexColumnsList.count()) {
       for (int i = 0; i < count(); ++i) {
         bool show = indexColumnsList.contains(QString::number(logicalIndex(i)));
@@ -455,7 +455,7 @@ void NewsHeader::setColumns(const QModelIndex &indexFeed)
     sortType = mainWindow->feedsModel_->dataField(indexFeed, "sortType").toInt();
   } else {
     indexColumnsStr = settings.value("columns").toString();
-    QStringList indexColumnsList = indexColumnsStr.split(",", QString::SkipEmptyParts);
+    QStringList indexColumnsList = indexColumnsStr.split(",", Qt::SkipEmptyParts);
     if (indexColumnsList.count()) {
       for (int i = 0; i < count(); ++i) {
         bool show = indexColumnsList.contains(QString::number(logicalIndex(i)));

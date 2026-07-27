@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 #if defined(HAVE_QT5)
     qInstallMessageHandler(LogFile::msgHandler);
 #else
-    qInstallMsgHandler(LogFile::msgHandler);
+    qInstallMessageHandler(LogFile::msgHandler);
 #endif
   }
 

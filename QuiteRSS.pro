@@ -31,7 +31,10 @@ exists(.git) {
   }
 }
 
-isEqual(QT_MAJOR_VERSION, 5) {
+isEqual(QT_MAJOR_VERSION, 6) {
+  QT += core gui network xml printsupport sql multimedia
+  DEFINES += HAVE_QT6
+} else:isEqual(QT_MAJOR_VERSION, 5) {
   QT += widgets network xml printsupport sql multimedia
   DEFINES += HAVE_QT5
 } else {
@@ -190,6 +193,9 @@ isEmpty(SYSTEMQTSA) {
   CONFIG += qtsingleapplication
 }
 isEqual(QT_MAJOR_VERSION, 5) {
+  include(3rdparty/qftp/qftp.pri)
+}
+isEqual(QT_MAJOR_VERSION, 6) {
   include(3rdparty/qftp/qftp.pri)
 }
 include(3rdparty/sqlite.pri)
