@@ -5589,6 +5589,7 @@ void MainWindow::showFeedPropertiesDlg()
   QModelIndex indexAuthentication = feedsModel_->indexSibling(index, "authentication");
   QModelIndex indexDisableUpdate = feedsModel_->indexSibling(index, "disableUpdate");
   QModelIndex indexJavaScript = feedsModel_->indexSibling(index, "javaScriptEnable");
+  QModelIndex indexExcludeSubPaths = feedsModel_->indexSibling(index, "excludeSubPaths");
   feedsModel_->setData(indexText, properties.general.text);
   feedsModel_->setData(indexUrl, properties.general.url);
   feedsModel_->setData(indexStartup, properties.general.displayOnStartup);
@@ -5603,6 +5604,7 @@ void MainWindow::showFeedPropertiesDlg()
   feedsModel_->setData(indexAuthentication, properties.authentication.on ? 1 : 0);
   feedsModel_->setData(indexDisableUpdate, properties.general.disableUpdate ? 1 : 0);
   feedsModel_->setData(indexJavaScript, properties.display.javaScriptEnable);
+  feedsModel_->setData(indexExcludeSubPaths, properties.general.excludeSubPaths);
 
   if (!properties.general.updateEnable ||
       (properties.general.updateEnable != updateFeedsEnable_) ||
